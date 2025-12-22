@@ -4,4 +4,4 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 
-print(make_paths(ROOT))
+print(make_paths(ROOT).raw)
