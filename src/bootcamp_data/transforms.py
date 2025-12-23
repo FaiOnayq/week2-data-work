@@ -32,4 +32,32 @@ def dedupe_keep_latest(df: pd.DataFrame, key_cols: list[str], ts_col: str) -> pd
     return df.sort_values(ts_col).drop_duplicates(subset=key_cols, keep="last").reset_index(drop=True)
 
 
+def parse_datetime(df, col, utc=True):
+    df[col] = pd.to_datetime(df, errors="coerce", utc=utc)
+    return df
 
+def add_time_parts(df, ts_col):
+    ts = df[ts_col] 
+    return df.assign( date=ts.dt.date, year=ts.dt.year, month=ts.dt.to_period("M").astype("string"), dow=ts.dt.day_name(),hour=ts.dt.hour, quarter= ts.dt.quarter )
+
+
+# output lower and higher outliers
+def iqr_bounds(s, k=1.5):
+    s = s.dropna()
+    q1 = s.quantile(0.25)
+    q3 = s.quantile(0.75)
+    iqr = q3 - q1
+    return float(q1 - k*iqr), float(q3 + k*iqr)
+
+def winsorize(s, lo=0.01, hi=0.99):
+    s = s.dropna()
+    a = s.quantile(lo)
+    b = s.quantile(hi)
+    return s.clip(lower=a, upper=b)
+
+def add_outlier_flag(df, col, k=1.5):
+    lo , hi = iqr_bounds(df["col"],k)
+    col_name = f'{col}__is_outlier'
+    df[col_name] = True if df[col]<lo | df[col]>hi else False
+    
+    return df
