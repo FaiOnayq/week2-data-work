@@ -56,8 +56,7 @@ def winsorize(s, lo=0.01, hi=0.99):
     return s.clip(lower=a, upper=b)
 
 def add_outlier_flag(df, col, k=1.5):
-    lo , hi = iqr_bounds(df["col"],k)
+    lo , hi = iqr_bounds(df[col],k)
     col_name = f'{col}__is_outlier'
-    df[col_name] = True if df[col]<lo | df[col]>hi else False
-    
+    df[col_name] = ((df[col] < lo) | (df[col] > hi)).fillna(False)
     return df
