@@ -26,7 +26,6 @@ if __name__ == "__main__":
     users_output =  path.processed / "users.parquet"
     
     orders = pd.read_parquet(orders_output)
-    print(orders)
     users = pd.read_parquet(users_output)
     log.info("Rows: orders_raw=%s, users=%s", len(orders), len(users))
 
@@ -51,17 +50,16 @@ if __name__ == "__main__":
     assert len(join_orders_users) == len(orders_dt), f"Row count changed to {len(join_orders_users)}"
     print(f" Count of 'orders' rows \n before join: {len(orders_dt)} \n after join: {len(join_orders_users)}")
     match_rate = 1.0 - float(join_orders_users["country"].isna().mean())
-    print("match rate for 'country' after join:", round(match_rate, 2))
+    print("match rate for 'country' after join:", round(match_rate, 2), "\n")
     
     summary =(join_orders_users.groupby("country", dropna=False)
                 .agg(revenue=("amount","sum"), orders=("order_id","size")).reset_index())
-    print("#-- Summary: \n ",summary)
+    print("# Summary: \n ",summary, "\n")
     summary.to_csv(ROOT/"reports"/"revenue_by_country.csv", index=False)
     
     # may add lo, hi with iqr_bounds function
     join_orders_users = join_orders_users.assign(amount_winsor=winsorize(join_orders_users["amount"]))
     join_orders_users = add_outlier_flag(join_orders_users, "amount", k=1.5)
-    print(join_orders_users["amount__is_outlier"])
     
     output_path = path.processed / "analytics_table.parquet"
     
