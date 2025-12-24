@@ -41,6 +41,7 @@ if __name__ == "__main__":
     assert_unique_key(users, "user_id")
     
     orders_dt = parse_datetime(orders, "created_at", utc=True)
+    users = parse_datetime(users, "signup_date", utc=True)
     orders_dt = add_time_parts(orders_dt, "created_at")
     
     n_dt_missing = int(orders_dt["created_at"].isna().sum())
