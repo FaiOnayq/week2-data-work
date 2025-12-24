@@ -10,14 +10,21 @@ from bootcamp_data.transforms import enforce_schema, missingness_report, normali
 from bootcamp_data.quality import require_columns, assert_non_empty
 import pandas as pd
 
+import logging
+
+log = logging.getLogger(__name__)
+
 
 if __name__ == "__main__":
+    logging.basicConfig(level=logging.INFO, format="%(levelname)s %(name)s: %(message)s")
     path = make_paths(ROOT)
     
+    log.info("Loading raw inputs")
     orders = read_orders_csv(path.raw / "orders.csv")
     #--
     orders_mimic = read_orders_csv(path.raw / "empty.csv")
     users = read_users_csv(path.raw / "users.csv")
+    log.info("Rows: orders_raw=%s, users=%s", len(orders), len(users))
     
     
     require_columns(orders, ["order_id", "user_id", "amount","created_at", "status", "quantity"])
@@ -37,6 +44,7 @@ if __name__ == "__main__":
     
     missingness_report(orders_schema).to_csv(ROOT / "reports" / "missingness_orders.csv")
     missingness_report(orders_schema_mimic).to_csv(ROOT / "reports" / "missingness_orders_mimic.csv")
+    log.info("Wrote missingness report: %s", ROOT / "reports")
 
     print(orders_schema["status"].unique())
     print(orders_schema_mimic["status"].unique())
@@ -69,6 +77,7 @@ if __name__ == "__main__":
     write_parquet(orders_flags_mimic, orders_output_mimic)
 
     write_parquet(users, users_output)
+    log.info("Wrote processed outputs: %s", path.processed)
     
     df = pd.read_parquet(orders_output)
     print(df.dtypes)
