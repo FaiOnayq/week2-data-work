@@ -21,9 +21,8 @@ if __name__ == "__main__":
 
     path = make_paths(ROOT)
     
-    orders_output = path.processed / "orders_clean.parquet"
-    orders_output_mimic = path.processed / "orders_clean_mimic.parquet"
-    users_output =  path.processed / "users.parquet"
+    orders_output = path.processed / "orders_x_clean.parquet"
+    users_output =  path.processed / "users_x.parquet"
     
     orders = pd.read_parquet(orders_output)
     users = pd.read_parquet(users_output)
@@ -56,13 +55,13 @@ if __name__ == "__main__":
     summary =(join_orders_users.groupby("country", dropna=False)
                 .agg(revenue=("amount","sum"), orders=("order_id","size")).reset_index())
     print("# Summary: \n ",summary, "\n")
-    summary.to_csv(ROOT/"reports"/"revenue_by_country.csv", index=False)
+    summary.to_csv(ROOT/"reports"/"revenue_by_country_x.csv", index=False)
     
     # may add lo, hi with iqr_bounds function
     join_orders_users = join_orders_users.assign(amount_winsor=winsorize(join_orders_users["amount"]))
     join_orders_users = add_outlier_flag(join_orders_users, "amount", k=1.5)
     
-    output_path = path.processed / "analytics_table.parquet"
+    output_path = path.processed / "analytics_table_x.parquet"
     
     write_parquet(join_orders_users, output_path)
     print("wrote:", output_path)

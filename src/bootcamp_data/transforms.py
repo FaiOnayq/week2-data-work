@@ -38,7 +38,7 @@ def parse_datetime(df, col, utc=True):
 
 def add_time_parts(df, ts_col):
     ts = df[ts_col] 
-    return df.assign( date=ts.dt.date, year=ts.dt.year, month=ts.dt.to_period("M").astype("string"), dow=ts.dt.day_name(),hour=ts.dt.hour, quarter= ts.dt.quarter )
+    return df.assign( date=ts.dt.date, year=ts.dt.year, month=ts.dt.month, dow=ts.dt.day_name(),hour=ts.dt.hour, quarter= ts.dt.quarter )
 
 
 # output lower and higher outliers

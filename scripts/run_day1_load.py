@@ -1,3 +1,9 @@
+from pathlib import Path
+import sys
+
+ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT / "src"))
+
 from bootcamp_data.config import make_paths
 from bootcamp_data.io import read_orders_csv, read_users_csv, write_parquet, read_parquet
 from bootcamp_data.transforms import enforce_schema
@@ -12,13 +18,13 @@ ROOT = Path(__file__).resolve().parents[1]
 if __name__ == "__main__":
     path = make_paths(ROOT)
     
-    orders = read_orders_csv(path.raw / "orders.csv")
-    users = read_users_csv(path.raw / "users.csv")
+    orders = read_orders_csv(path.raw / "orders_x.csv")
+    users = read_users_csv(path.raw / "users_x.csv")
     
     orders_schema = enforce_schema(orders)
     
-    orders_output = path.processed / "orders.parquet"
-    users_output =  path.processed / "users.parquet"
+    orders_output = path.processed / "orders_x.parquet"
+    users_output =  path.processed / "users_x.parquet"
     
     write_parquet(orders_schema, orders_output)
     write_parquet(users, users_output)
