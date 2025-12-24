@@ -33,7 +33,7 @@ def dedupe_keep_latest(df: pd.DataFrame, key_cols: list[str], ts_col: str) -> pd
 
 
 def parse_datetime(df, col, utc=True):
-    df[col] = pd.to_datetime(df, errors="coerce", utc=utc)
+    df[col] = pd.to_datetime(df[col], errors="coerce", utc=utc)
     return df
 
 def add_time_parts(df, ts_col):
