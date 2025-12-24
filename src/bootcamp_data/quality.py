@@ -10,7 +10,7 @@ def assert_non_empty(df, name="df"):
     
 def assert_unique_key(df, key, allow_na=False):
     if not allow_na:
-        assert df[key].isna().all(), f"There is empty cell in {key} "
+        assert df[key].notna().all(), f"There is empty cell in {key} "
     dups = df[key].duplicated(keep=False).sum()
     assert dups==0 , f'the {key} has {dups} times of duplicated'
 
