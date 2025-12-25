@@ -1,6 +1,3 @@
 .venv/
 x.ipynb
-data/processed/orders_clean_mimic.parquet
-data/processed/orders_emp.parquet
-
-reports/missingness_orders_mimic.csv
+temp/
