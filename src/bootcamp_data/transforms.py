@@ -13,7 +13,7 @@ def missingness_report(df) -> pd.DataFrame:
     missing = df.isna().sum()
     report = missing.to_frame(name="n_missing")
     report["p_missing"] = missing/n
-    return report.sort_values("p_missing", ascending=False)
+    return report.sort_values("p_missing", ascending=False).reset_index(names="column")
     
 
 def add_missing_flags(df, cols) -> pd.DataFrame:

@@ -30,10 +30,8 @@ if __name__ == "__main__":
     
     assert_non_empty(orders, "orders")
     assert_non_empty(users, "users")
-
     
     orders_schema = enforce_schema(orders)
-
     
     missingness_report(orders_schema).to_csv(ROOT / "reports" / "missingness_orders.csv")
     log.info("Wrote missingness report: %s", ROOT / "reports")
