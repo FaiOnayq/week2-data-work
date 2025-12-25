@@ -104,15 +104,15 @@ def run_etl(cfg: ETLConfig) -> None:
     log.info("Transforming orders, users")
     analytics = transform(orders, users)
     
-    log.info("Wrote missingness report: %s", ROOT / "reports")    
+    log.info("Wrote missingness report: %s", ROOT / "reports/missingness_orders.csv")    
     missingness_report(analytics).to_csv(cfg.reports/ "missingness_orders.csv", index=False)
     
-    log.info("Wrote summary of revenue by country report: %s", ROOT / "reports")   
+    log.info("Wrote summary of revenue by country report: %s", ROOT / "reports/revenue_by_country.csv")   
     summary =(analytics.groupby("country", dropna=False)
                 .agg(revenue=("amount","sum"), orders=("order_id","size")).reset_index())
     summary.to_csv(cfg.reports/"revenue_by_country.csv", index=False)
     
-    log.info("Writing outputs to %s", cfg.out_analytics.parent)
+    log.info("Writing outputs of analytics and users to %s", cfg.out_analytics.parent)
     load_outputs(analytics, users, cfg)
     
     log.info("Writing run metadata: %s", cfg.run_meta)
