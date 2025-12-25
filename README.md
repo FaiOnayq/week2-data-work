@@ -2,7 +2,7 @@
 
 # ETL Pipeline & EDA Project
 A reproducible data pipeline with quality checks, transformations, and exploratory analysis.
-
+Note: the dataset has been increased
 
 ### Setup
 ```
