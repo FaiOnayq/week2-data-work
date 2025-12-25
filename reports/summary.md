@@ -32,18 +32,18 @@
 ## EDA questions
 - What is the refund rate by country?
 ![Alt text](..\reports\figures\refund_by_country.png)
-
+The refund rate varies across the three countries (SA, AE, KW).
 - Who are the top 10 Users by Revenue?
 ![Alt text](..\reports\figures\top_users_by_revenue.png)
-
+user "007" "008"  has the highest order revenue and user "005" has the lower.
 - Which countries has the higest revenue?
 ![Alt text](..\reports\figures\revenue_by_country.png)
-
+SA has the highest revenue
 - which day has highest revenue?
 ![Alt text](..\reports\figures\revenue_by_days.png)
-
+Thursday has the high revenue
 - which days has many orders volume and days has less?
 ![Alt text](..\reports\figures\orders_by_days.png)
-
+friday has the highest volume orders ans sunday has the least
 - which hours has many orders volume and hours has less?
 ![Alt text](..\reports\figures\orders_by_hours.png)
